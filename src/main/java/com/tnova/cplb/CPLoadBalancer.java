@@ -1,5 +1,6 @@
 package com.tnova.cplb;
 
+import java.net.InetAddress;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -36,7 +37,7 @@ public class CPLoadBalancer{
 
     private static void ConfigureAndStartMonitoringInstaceTasks() {
         TempData.LOGGER.info("Configure and start monitoring instace tasks...");
-        for(String iIp : TempData.cpInstances.keySet()){
+        for(InetAddress iIp : TempData.cpInstances.keySet()){
             String wmtName = "wmt@"+iIp;
             TempData.LOGGER.info("Started Worker Monitoring Thread "+wmtName+" execution loop...");
             ScheduledThreadPoolExecutor stpe =

@@ -16,6 +16,8 @@ public class CpInstance {
 
 
     public CpInstance() {
+        monitoringMetadata = EvictingQueue.create(TempData.monitoringDataHistoryLenght);
+        OFSwitchesMonitoringMetadata = new ArrayList<OFSwitchMonitoringMetadata>();
     }
 
     public CpInstance(InetAddress ipInstance) {

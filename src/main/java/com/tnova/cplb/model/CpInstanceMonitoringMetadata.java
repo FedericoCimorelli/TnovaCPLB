@@ -1,9 +1,6 @@
 package com.tnova.cplb.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
 
 
@@ -102,6 +99,17 @@ public class CpInstanceMonitoringMetadata {
 
     public void setLoadAvgFifteenMinute(float loadAvgFifteenMinute) {
         this.loadAvgFifteenMinute = loadAvgFifteenMinute;
+    }
+
+
+    @Override
+    public String toString() {
+        return "CpInstanceMonitoringMetadata [timestamp=" + timestamp
+                + ", nSwitch=" + nSwitch + ", freeRam=" + freeRam
+                + ", usedRam=" + usedRam + ", totalRam=" + totalRam + ", nCPU="
+                + nCPU + ", loadAvgOneMinute=" + loadAvgOneMinute
+                + ", loadAvgFiveMinute=" + loadAvgFiveMinute
+                + ", loadAvgFifteenMinute=" + loadAvgFifteenMinute + "]";
     }
 
 

@@ -50,7 +50,7 @@ public class Utils {
             l+=ip;
             TempData.LOGGER.info(l);
             CpInstance cpi = new CpInstance(ipInstance);
-            TempData.cpInstances.put(cpi.getIp().toString(), cpi);
+            TempData.cpInstances.put(cpi.getIp(), cpi);
         }
     }
 

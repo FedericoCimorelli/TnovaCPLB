@@ -3,6 +3,7 @@ package task;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.util.Properties;
 
 import com.jcraft.jsch.ChannelExec;
@@ -10,40 +11,35 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.tnova.cplb.data.TempData;
+import com.tnova.cplb.model.CpInstanceMonitoringMetadata;
 
 public class WorkerMonitoringThread implements Runnable{
 
     private String threadName = "";
-    private String instanceIp = "";
+    private InetAddress instanceIp;
 
 
-    public WorkerMonitoringThread(String threadName, String instanceIp){
+    public WorkerMonitoringThread(String threadName, InetAddress instanceIp){
         this.threadName = threadName;
         this.instanceIp = instanceIp;
     }
 
 
     public void run(){
-        TempData.LOGGER.info("WorkerMonitoringThread "+threadName+" execution...");
         getInstanceMachineResourceMonitoringData(instanceIp);
-        try{
-            Thread.sleep(1000);
-        }
-        catch (InterruptedException e){
-            e.printStackTrace();
-        }
-        TempData.LOGGER.info("WorkerMonitoringThread "+threadName+" result: XYZ");
     }
 
 
-    private int getInstanceMachineResourceMonitoringData(String ip){
-        if(ip.startsWith("/"))
-            ip = ip.substring(1);
-        TempData.LOGGER.info(ip);
+    private int getInstanceMachineResourceMonitoringData(InetAddress ip){
+        TempData.LOGGER.info(ip.toString());
         JSch jsch=new JSch();
         Session session;
+        CpInstanceMonitoringMetadata cpimm = new CpInstanceMonitoringMetadata();
         try {
-            session = jsch.getSession(TempData.remoteHostUserName, ip, 22);
+            String i = ip.toString();
+            if(i.startsWith("/"))
+                i = i.substring(1);
+            session = jsch.getSession(TempData.remoteHostUserName, i, 22);
             session.setPassword(TempData.remoteHostpassword);
             Properties config = new Properties();
             config.put("StrictHostKeyChecking", "no");
@@ -61,29 +57,30 @@ public class WorkerMonitoringThread implements Runnable{
                     + "uptime | awk 'FNR == 1 {print $10}';"
                             + "");
             channel.connect();
-            float freeRam = -1, usedRam = -1, totalRam = -1;
-            int nCPU = -1;
             String aux = in.readLine();
-            totalRam = new Float(aux);
+            cpimm.setTotalRam(Float.parseFloat(aux));
             aux = in.readLine();
-            usedRam = new Float(aux);
+            cpimm.setUsedRam(Float.parseFloat(aux));
             aux = in.readLine();
-            freeRam = new Float(aux);
+            cpimm.setFreeRam(Float.parseFloat(aux));
             aux = in.readLine();
-            nCPU = new Integer(aux);
-            aux = in.readLine();
-            aux = aux.substring(0, aux.length()-1);
-            TempData.LOGGER.info(aux);
+            cpimm.setnCPU(new Integer(aux));
             aux = in.readLine();
             aux = aux.substring(0, aux.length()-1);
-            TempData.LOGGER.info(aux);
+            aux = aux.replace(',', '.');
+            cpimm.setLoadAvgOneMinute(Float.parseFloat(aux));
             aux = in.readLine();
-            TempData.LOGGER.info(aux);
-            TempData.LOGGER.info("Monitoring metadata for instance "+ip+": "
-                    +"FreeRAM:"+freeRam+" UsedRAM:"+usedRam+" TotalRAM:"+totalRam+" nCPU:"+nCPU);
+            aux = aux.substring(0, aux.length()-1);
+            aux = aux.replace(',', '.');
+            cpimm.setLoadAvgFiveMinute(new Float(aux));
+            aux = in.readLine();
+            aux = aux.replace(',', '.');
+            cpimm.setLoadAvgFifteenMinute(new Float(aux));
+            TempData.LOGGER.info("Monitoring metadata for instance "+ip+": "+cpimm.toString());
             //while((msg=in.readLine())!=null){
             //  TempData.LOGGER.info(msg);
             //}
+            in.close();
             channel.disconnect();
             session.disconnect();
         }
@@ -94,6 +91,8 @@ public class WorkerMonitoringThread implements Runnable{
             TempData.LOGGER.severe(e.getMessage());
             return -1;
         }
+        TempData.cpInstances.get(ip).monitoringMetadata.add(cpimm);
+        TempData.LOGGER.info("444");
         return 0;
     }
 
