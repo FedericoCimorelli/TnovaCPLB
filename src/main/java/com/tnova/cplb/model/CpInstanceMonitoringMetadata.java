@@ -8,9 +8,10 @@ public class CpInstanceMonitoringMetadata {
 
     public Timestamp timestamp;
     public double numberOfFlow = -1;
-    public float freeRam = -1;
-    public float usedRam = -1;
-    public float totalRam = -1;
+    private float freeRam = -1;
+    private float usedRam = -1;
+    private float totalRam = -1;
+    private int nCPU = -1;
 
 
     public CpInstanceMonitoringMetadata() {
@@ -19,6 +20,7 @@ public class CpInstanceMonitoringMetadata {
         freeRam = -1;
         usedRam = -1;
         totalRam = -1;
+        nCPU = -1;
     }
 
 

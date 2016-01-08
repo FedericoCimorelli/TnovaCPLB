@@ -12,6 +12,11 @@ import com.tnova.cplb.utils.Utils;
 
 public class CPLoadBalancer{
 
+    /*TODO
+     * Externalize configuration loading from file (use some library for that)
+     */
+
+
     public static void main( String[] args ){
         InizializeLogger();
         TempData.LOGGER.info("Starting LoadBalancer...");
@@ -20,10 +25,12 @@ public class CPLoadBalancer{
     }
 
 
+
     private static void InizializeLogger() {
         TempData.LOGGER = Logger.getLogger("TnovaCPLB");
         TempData.LOGGER.info("LoadBalancer logger initialized");
     }
+
 
 
 
@@ -42,8 +49,7 @@ public class CPLoadBalancer{
              * called schedule at fixed rate. This continues till 'n' threads are executed.
              */
             stpe.scheduleAtFixedRate(
-                    new WorkerMonitoringThread(
-                            wmtName),
+                    new WorkerMonitoringThread(wmtName, iIp),
                             TempData.scheduledMonitoringThreadInitialDelay,
                             TempData.scheduledMonitoringThreadFixedTimeout,
                             TimeUnit.SECONDS);

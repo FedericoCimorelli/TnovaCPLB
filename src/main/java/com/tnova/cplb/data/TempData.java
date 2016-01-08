@@ -20,4 +20,6 @@ public class TempData {
     public static int scheduledThreadPoolExecutorCorePoolSize = 2;
     public static int scheduledMonitoringThreadFixedTimeout = 10; //secs
     public static int scheduledMonitoringThreadInitialDelay = 5; //secs
+    public static String remoteHostUserName = "federico";
+    public static String remoteHostpassword = "depeche";
 }
