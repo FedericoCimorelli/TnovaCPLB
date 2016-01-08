@@ -6,7 +6,7 @@ import com.tnova.cplb.data.TempData;
 
 public class CpInstance {
 
-    public InetAddress ipInstance;
+    public InetAddress ip;
     public EvictingQueue<CpInstanceMonitoringMetadata> monitoringMetadata;
     public boolean monitoringTaskActive = false;
 
@@ -15,9 +15,18 @@ public class CpInstance {
     }
 
     public CpInstance(InetAddress ipInstance) {
-        this.ipInstance = ipInstance;
+        this.ip = ipInstance;
         monitoringMetadata = EvictingQueue.create(TempData.monitoringDataHistoryLenght);
         monitoringTaskActive = false;
     }
+
+    public InetAddress getIp() {
+        return ip;
+    }
+
+    public void setIp(InetAddress ipInstance) {
+        this.ip = ipInstance;
+    }
+
 
 }
