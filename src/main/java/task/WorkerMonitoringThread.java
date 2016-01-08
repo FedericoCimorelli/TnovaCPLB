@@ -55,7 +55,10 @@ public class WorkerMonitoringThread implements Runnable{
                     + "free | awk 'FNR == 3 {print $3 + $4}';" //total RAM
                     + "free | awk 'FNR == 3 {print $3}';" //used RAM
                     + "free | awk 'FNR == 3 {print $4}';" //free RAM
-                    + "nproc;"
+                    + "nproc;" //num CPUs
+                    + "uptime | awk 'FNR == 1 {print $8}';"
+                    + "uptime | awk 'FNR == 1 {print $9}';"
+                    + "uptime | awk 'FNR == 1 {print $10}';"
                             + "");
             channel.connect();
             float freeRam = -1, usedRam = -1, totalRam = -1;
@@ -68,6 +71,14 @@ public class WorkerMonitoringThread implements Runnable{
             freeRam = new Float(aux);
             aux = in.readLine();
             nCPU = new Integer(aux);
+            aux = in.readLine();
+            aux = aux.substring(0, aux.length()-1);
+            TempData.LOGGER.info(aux);
+            aux = in.readLine();
+            aux = aux.substring(0, aux.length()-1);
+            TempData.LOGGER.info(aux);
+            aux = in.readLine();
+            TempData.LOGGER.info(aux);
             TempData.LOGGER.info("Monitoring metadata for instance "+ip+": "
                     +"FreeRAM:"+freeRam+" UsedRAM:"+usedRam+" TotalRAM:"+totalRam+" nCPU:"+nCPU);
             //while((msg=in.readLine())!=null){
