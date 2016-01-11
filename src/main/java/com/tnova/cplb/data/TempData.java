@@ -8,19 +8,21 @@ import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.logging.Logger;
 
+import javax.ws.rs.core.NewCookie;
+
+import com.sun.jersey.api.client.Client;
 import com.tnova.cplb.model.CpInstance;
 
 public class TempData {
 
-    public static int numberOfInstancies = 0;
-    public static int monitoringDataHistoryLenght = 10;
     public static Logger LOGGER;
     public static String configurationFileName = "config";
     public static Map<InetAddress, CpInstance> cpInstances = new HashMap<InetAddress, CpInstance>();
     public static List<ScheduledThreadPoolExecutor> scheduledThreadPoolExcecutors = new ArrayList<ScheduledThreadPoolExecutor>();
-    public static int scheduledThreadPoolExecutorCorePoolSize = 2;
-    public static int scheduledMonitoringThreadFixedTimeout = 10; //secs
-    public static int scheduledMonitoringThreadInitialDelay = 5; //secs
-    public static String remoteHostUserName = "federico";
-    public static String remoteHostpassword = "";
+
+    public static Client client;
+    public static List<NewCookie> odlCookies = null;
+
+    public static List<String> instanceAndresses = new ArrayList<String>();
+
 }

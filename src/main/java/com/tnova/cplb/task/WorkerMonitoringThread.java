@@ -1,4 +1,4 @@
-package task;
+package com.tnova.cplb.task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,8 +39,8 @@ public class WorkerMonitoringThread implements Runnable{
             String i = ip.toString();
             if(i.startsWith("/"))
                 i = i.substring(1);
-            session = jsch.getSession(TempData.remoteHostUserName, i, 22);
-            session.setPassword(TempData.remoteHostpassword);
+            session = jsch.getSession(TempData.REMOTE_HOST_USERNAME, i, 22);
+            session.setPassword(TempData.REMOTE_HOST_PASSWORD);
             Properties config = new Properties();
             config.put("StrictHostKeyChecking", "no");
             session.setConfig(config);

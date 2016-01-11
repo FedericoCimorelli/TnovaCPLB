@@ -5,9 +5,12 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import task.WorkerMonitoringThread;
-
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.tnova.cplb.data.TempData;
+import com.tnova.cplb.task.WorkerMonitoringThread;
 import com.tnova.cplb.utils.Utils;
 
 
@@ -55,6 +58,17 @@ public class CPLoadBalancer{
                             TempData.scheduledMonitoringThreadFixedTimeout,
                             TimeUnit.SECONDS);
         }
+    }
+
+    private static void setupAuthenticatedClient(){
+        TempData.client = Client.create();
+        TempData.client.addFilter(new HTTPBasicAuthFilter(Constants.ODL_username, Constants.ODL_password));
+        WebResource webResource = TempData.client.resource(Constants.odlGetAllNodesWSPath);
+        ClientResponse response = webResource.get(ClientResponse.class);
+        TempData.logger.info("Getting cookies");
+        TempData.odlCookies = response.getCookies();
+
+        //TempData.client = Client.create();
     }
 
 }
