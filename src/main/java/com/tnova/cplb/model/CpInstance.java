@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.EvictingQueue;
-import com.tnova.cplb.data.TempData;
+import com.tnova.cplb.data.Constants;
 
 public class CpInstance {
 
@@ -16,13 +16,13 @@ public class CpInstance {
 
 
     public CpInstance() {
-        monitoringMetadata = EvictingQueue.create(TempData.monitoringDataHistoryLenght);
+        monitoringMetadata = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
         OFSwitchesMonitoringMetadata = new ArrayList<OFSwitchMonitoringMetadata>();
     }
 
     public CpInstance(InetAddress ipInstance) {
         this.ip = ipInstance;
-        monitoringMetadata = EvictingQueue.create(TempData.monitoringDataHistoryLenght);
+        monitoringMetadata = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
         monitoringTaskActive = false;
         OFSwitchesMonitoringMetadata = new ArrayList<OFSwitchMonitoringMetadata>();
     }

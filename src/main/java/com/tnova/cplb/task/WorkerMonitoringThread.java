@@ -10,6 +10,7 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.tnova.cplb.data.Constants;
 import com.tnova.cplb.data.TempData;
 import com.tnova.cplb.model.CpInstanceMonitoringMetadata;
 
@@ -39,8 +40,8 @@ public class WorkerMonitoringThread implements Runnable{
             String i = ip.toString();
             if(i.startsWith("/"))
                 i = i.substring(1);
-            session = jsch.getSession(TempData.REMOTE_HOST_USERNAME, i, 22);
-            session.setPassword(TempData.REMOTE_HOST_PASSWORD);
+            session = jsch.getSession(Constants.REMOTE_HOST_USERNAME, i, 22);
+            session.setPassword(Constants.REMOTE_HOST_PASSWORD);
             Properties config = new Properties();
             config.put("StrictHostKeyChecking", "no");
             session.setConfig(config);

@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import com.tnova.cplb.data.Constants;
 import com.tnova.cplb.data.TempData;
 import com.tnova.cplb.model.CpInstance;
 
@@ -32,7 +34,7 @@ public class Utils {
         TempData.LOGGER.info(l);
         int numOfInstances = Integer.parseInt(numberOfInstances);
         //TempData.cpInstances = new ArrayList<CpInstance>();
-        TempData.numberOfInstancies = numOfInstances;
+        Constants.numberOfInstancies = numOfInstances;
         InetAddress ipInstance = null;
         for(int i=0; i<numOfInstances; i++){
             l = "Configuring instace #"+(i+1)+", IP:";

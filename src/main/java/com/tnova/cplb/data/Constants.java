@@ -9,7 +9,7 @@ public class Constants {
     public static int scheduledMonitoringThreadInitialDelay = 5; //secs
     public static String REMOTE_HOST_USERNAME = "federico";
 
-    public static String REMOTE_HOST_PASSWORD = "TOBECHANGED";
+    public static String REMOTE_HOST_PASSWORD = "";//"TOBECHANGED";
 
     public static String ODL_PORT = "8181";
     public static String ODL_username = "admin";

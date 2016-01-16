@@ -9,6 +9,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import com.tnova.cplb.data.Constants;
 import com.tnova.cplb.data.TempData;
 import com.tnova.cplb.task.WorkerMonitoringThread;
 import com.tnova.cplb.utils.Utils;
@@ -44,7 +45,7 @@ public class CPLoadBalancer{
             String wmtName = "wmt@"+iIp;
             TempData.LOGGER.info("Started Worker Monitoring Thread "+wmtName+" execution loop...");
             ScheduledThreadPoolExecutor stpe =
-                    new ScheduledThreadPoolExecutor(TempData.scheduledThreadPoolExecutorCorePoolSize);
+                    new ScheduledThreadPoolExecutor(Constants.scheduledThreadPoolExecutorCorePoolSize);
             /*
              * This will execute the WorkerThread continuously for every 'TempData.scheduledMonitoringThreadFixedTimeout'
              * seconds with an initial delay of 'TempData.scheduledMonitoringThreadInitialDelay'
@@ -54,8 +55,8 @@ public class CPLoadBalancer{
              */
             stpe.scheduleAtFixedRate(
                     new WorkerMonitoringThread(wmtName, iIp),
-                            TempData.scheduledMonitoringThreadInitialDelay,
-                            TempData.scheduledMonitoringThreadFixedTimeout,
+                        Constants.scheduledMonitoringThreadInitialDelay,
+                        Constants.scheduledMonitoringThreadFixedTimeout,
                             TimeUnit.SECONDS);
         }
     }
@@ -63,9 +64,9 @@ public class CPLoadBalancer{
     private static void setupAuthenticatedClient(){
         TempData.client = Client.create();
         TempData.client.addFilter(new HTTPBasicAuthFilter(Constants.ODL_username, Constants.ODL_password));
-        WebResource webResource = TempData.client.resource(Constants.odlGetAllNodesWSPath);
+        WebResource webResource = TempData.client.resource(Constants.getOdlNodesPath("HHHHHHHHHHHHHHHHHHHHHHHHHH"));
         ClientResponse response = webResource.get(ClientResponse.class);
-        TempData.logger.info("Getting cookies");
+        TempData.LOGGER.info("Getting cookies");
         TempData.odlCookies = response.getCookies();
 
         //TempData.client = Client.create();
