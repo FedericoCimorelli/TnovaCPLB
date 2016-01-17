@@ -26,6 +26,7 @@ public class CPLoadBalancer{
         InizializeLogger();
         TempData.LOGGER.info("Starting LoadBalancer...");
         Utils.LoadingInstancesConfiguration();
+        setupAuthenticatedClient();
         ConfigureAndStartMonitoringInstaceTasks();
     }
 
@@ -64,11 +65,12 @@ public class CPLoadBalancer{
     private static void setupAuthenticatedClient(){
         TempData.client = Client.create();
         TempData.client.addFilter(new HTTPBasicAuthFilter(Constants.ODL_username, Constants.ODL_password));
-        WebResource webResource = TempData.client.resource(Constants.getOdlNodesPath("HHHHHHHHHHHHHHHHHHHHHHHHHH"));
-        ClientResponse response = webResource.get(ClientResponse.class);
-        TempData.LOGGER.info("Getting cookies");
-        TempData.odlCookies = response.getCookies();
-
+        for(String instanceIp : TempData.instanceAndresses){
+            WebResource webResource = TempData.client.resource(Constants.getOdlNodesPath(instanceIp));
+            ClientResponse response = webResource.get(ClientResponse.class);
+            TempData.LOGGER.info("Getting cookies for instance at "+instanceIp);
+            TempData.odlCookies = response.getCookies();
+        }
         //TempData.client = Client.create();
     }
 

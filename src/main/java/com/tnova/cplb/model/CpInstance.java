@@ -1,30 +1,27 @@
 package com.tnova.cplb.model;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.EvictingQueue;
 import com.tnova.cplb.data.Constants;
 
 public class CpInstance {
 
     public InetAddress ip;
-    public EvictingQueue<CpInstanceMonitoringMetadata> monitoringMetadata;
-    private List<OFSwitchMonitoringMetadata> OFSwitchesMonitoringMetadata;
+    public EvictingQueue<CpInstanceMachineMonitoringMetadata> monitoringMachineMetadata;
+    public EvictingQueue<CpInstanceOdlOpenFlowMonitoringMetadata> monitoringOdlOpenFlowMetadata;
     public boolean monitoringTaskActive = false;
 
 
     public CpInstance() {
-        monitoringMetadata = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
-        OFSwitchesMonitoringMetadata = new ArrayList<OFSwitchMonitoringMetadata>();
+        monitoringMachineMetadata = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
+        monitoringOdlOpenFlowMetadata = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
     }
 
     public CpInstance(InetAddress ipInstance) {
         this.ip = ipInstance;
-        monitoringMetadata = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
+        monitoringMachineMetadata = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
         monitoringTaskActive = false;
-        OFSwitchesMonitoringMetadata = new ArrayList<OFSwitchMonitoringMetadata>();
+        monitoringOdlOpenFlowMetadata = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
     }
 
     public InetAddress getIp() {

@@ -52,6 +52,7 @@ public class Utils {
             l+=ip;
             TempData.LOGGER.info(l);
             CpInstance cpi = new CpInstance(ipInstance);
+            TempData.instanceAndresses.add(ip);
             TempData.cpInstances.put(cpi.getIp(), cpi);
         }
     }

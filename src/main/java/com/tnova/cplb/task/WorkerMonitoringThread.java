@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.util.List;
 import java.util.Properties;
 
 import com.jcraft.jsch.ChannelExec;
@@ -12,7 +13,10 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.tnova.cplb.data.Constants;
 import com.tnova.cplb.data.TempData;
-import com.tnova.cplb.model.CpInstanceMonitoringMetadata;
+import com.tnova.cplb.model.CpInstanceMachineMonitoringMetadata;
+import com.tnova.cplb.model.CpInstanceOdlOpenFlowMonitoringMetadata;
+import com.tnova.cplb.model.OFSwitchMonitoringMetadata;
+import com.tnova.cplb.services.OdlService;
 
 public class WorkerMonitoringThread implements Runnable{
 
@@ -28,14 +32,30 @@ public class WorkerMonitoringThread implements Runnable{
 
     public void run(){
         getInstanceMachineResourceMonitoringData(instanceIp);
+        getOpenDaylightInstanceMonitoringData(instanceIp);
     }
 
 
+
+    private int getOpenDaylightInstanceMonitoringData(InetAddress ipInstance) {
+        CpInstanceOdlOpenFlowMonitoringMetadata cioomm = new CpInstanceOdlOpenFlowMonitoringMetadata();
+        String ip = ipInstance.toString();
+        if(ip.startsWith("/"))
+            ip = ip.substring(1);
+        List<OFSwitchMonitoringMetadata> a = OdlService.getAllNodes(ip);
+        cioomm.switchesMonitoringMetadata.addAll(a);
+        TempData.LOGGER.info("Monitoring ODL OpenFlow metadata for instance "+ip+": "+cioomm.getSwitchesMonitoringMetadata().toString());
+        //TempData.cpInstances.get(ip).monitoringOdlOpenFlowMetadata.add(cioomm);
+        return 0;
+    }
+
+
+
     private int getInstanceMachineResourceMonitoringData(InetAddress ip){
-        TempData.LOGGER.info(ip.toString());
+        //TempData.LOGGER.info(ip.toString());
         JSch jsch=new JSch();
         Session session;
-        CpInstanceMonitoringMetadata cpimm = new CpInstanceMonitoringMetadata();
+        CpInstanceMachineMonitoringMetadata cpimm = new CpInstanceMachineMonitoringMetadata();
         try {
             String i = ip.toString();
             if(i.startsWith("/"))
@@ -77,7 +97,7 @@ public class WorkerMonitoringThread implements Runnable{
             aux = in.readLine();
             aux = aux.replace(',', '.');
             cpimm.setLoadAvgFifteenMinute(new Float(aux));
-            TempData.LOGGER.info("Monitoring metadata for instance "+ip+": "+cpimm.toString());
+            TempData.LOGGER.info("Monitoring instance's machine metadata for instance "+ip+": "+cpimm.toString());
             //while((msg=in.readLine())!=null){
             //  TempData.LOGGER.info(msg);
             //}
@@ -92,9 +112,9 @@ public class WorkerMonitoringThread implements Runnable{
             TempData.LOGGER.severe(e.getMessage());
             return -1;
         }
-        TempData.cpInstances.get(ip).monitoringMetadata.add(cpimm);
-        TempData.LOGGER.info("444");
+        TempData.cpInstances.get(ip).monitoringMachineMetadata.add(cpimm);
         return 0;
     }
+
 
 }

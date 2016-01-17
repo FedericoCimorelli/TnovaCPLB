@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import org.joda.time.DateTime;
 
 
-public class CpInstanceMonitoringMetadata {
+public class CpInstanceMachineMonitoringMetadata {
 
     public Timestamp timestamp;
     public double nSwitch = -1;
@@ -17,7 +17,7 @@ public class CpInstanceMonitoringMetadata {
     private float loadAvgFifteenMinute = -1;
 
 
-    public CpInstanceMonitoringMetadata() {
+    public CpInstanceMachineMonitoringMetadata() {
         timestamp = new Timestamp(new DateTime().getMillis());
     }
 
