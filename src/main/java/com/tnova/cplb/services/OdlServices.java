@@ -14,7 +14,7 @@ import com.tnova.cplb.data.TempData;
 import com.tnova.cplb.model.OFSwitchMonitoringMetadata;
 import com.tnova.cplb.utils.OdlServiceUtils;
 
-public class OdlService {
+public class OdlServices {
 
     public static List<OFSwitchMonitoringMetadata> getAllNodes(String instanceIp){
         try {

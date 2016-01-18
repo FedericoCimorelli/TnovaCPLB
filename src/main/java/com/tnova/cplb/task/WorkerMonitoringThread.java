@@ -16,7 +16,7 @@ import com.tnova.cplb.data.TempData;
 import com.tnova.cplb.model.CpInstanceMachineMonitoringMetadata;
 import com.tnova.cplb.model.CpInstanceOdlOpenFlowMonitoringMetadata;
 import com.tnova.cplb.model.OFSwitchMonitoringMetadata;
-import com.tnova.cplb.services.OdlService;
+import com.tnova.cplb.services.OdlServices;
 
 public class WorkerMonitoringThread implements Runnable{
 
@@ -42,7 +42,7 @@ public class WorkerMonitoringThread implements Runnable{
         String ip = ipInstance.toString();
         if(ip.startsWith("/"))
             ip = ip.substring(1);
-        List<OFSwitchMonitoringMetadata> a = OdlService.getAllNodes(ip);
+        List<OFSwitchMonitoringMetadata> a = OdlServices.getAllNodes(ip);
         cioomm.switchesMonitoringMetadata.addAll(a);
         TempData.LOGGER.info("Monitoring ODL OpenFlow metadata for instance "+ip+": "+cioomm.getSwitchesMonitoringMetadata().toString());
         //TempData.cpInstances.get(ip).monitoringOdlOpenFlowMetadata.add(cioomm);

@@ -11,6 +11,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.tnova.cplb.data.Constants;
 import com.tnova.cplb.data.TempData;
+import com.tnova.cplb.task.LoadBalancerThread;
 import com.tnova.cplb.task.WorkerMonitoringThread;
 import com.tnova.cplb.utils.Utils;
 
@@ -23,16 +24,38 @@ public class CPLoadBalancer{
 
 
     public static void main( String[] args ){
-        InizializeLogger();
+        inizializeLogger();
         TempData.LOGGER.info("Starting LoadBalancer...");
         Utils.LoadingInstancesConfiguration();
         setupAuthenticatedClient();
-        ConfigureAndStartMonitoringInstaceTasks();
+        configureAndStartMonitoringInstaceTasks();
+        doLoadBalancingTask();
     }
 
 
 
-    private static void InizializeLogger() {
+    private static void doLoadBalancingTask() {
+        TempData.LOGGER.info("Configure and start Load Balancing...");
+        TempData.LOGGER.info("Scheduling LoadBalancer working Thread");
+        ScheduledThreadPoolExecutor stpe =
+                new ScheduledThreadPoolExecutor(Constants.scheduledThreadPoolExecutorCorePoolSize);
+        /*
+         * This will execute the WorkerThread continuously for every 'TempData.scheduledMonitoringThreadFixedTimeout'
+         * seconds with an initial delay of 'TempData.scheduledMonitoringThreadInitialDelay'
+         * seconds for the first WorkerThread to start execution cycle. In this case, whether the first
+         * WorkerThread is completed or not, the second WorkerThread will start exactly after 5 seconds hence
+         * called schedule at fixed rate. This continues till 'n' threads are executed.
+         */
+        stpe.scheduleAtFixedRate(
+                new LoadBalancerThread(),
+                Constants.scheduledLoadbalancerThreadInitialDelay,
+                Constants.scheduledLoadbalancerThreadFixedTimeout,
+                TimeUnit.SECONDS);
+        }
+
+
+
+    private static void inizializeLogger() {
         TempData.LOGGER = Logger.getLogger("TnovaCPLB");
         TempData.LOGGER.info("LoadBalancer logger initialized");
     }
@@ -40,7 +63,7 @@ public class CPLoadBalancer{
 
 
 
-    private static void ConfigureAndStartMonitoringInstaceTasks() {
+    private static void configureAndStartMonitoringInstaceTasks() {
         TempData.LOGGER.info("Configure and start monitoring instace tasks...");
         for(InetAddress iIp : TempData.cpInstances.keySet()){
             String wmtName = "wmt@"+iIp;

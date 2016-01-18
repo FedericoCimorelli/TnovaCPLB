@@ -5,8 +5,10 @@ public class Constants {
     public static int numberOfInstancies = 0;
     public static int monitoringDataHistoryLenght = 10;
     public static int scheduledThreadPoolExecutorCorePoolSize = 2;
-    public static int scheduledMonitoringThreadFixedTimeout = 5; //secs
-    public static int scheduledMonitoringThreadInitialDelay = 5; //secs
+    public static int scheduledMonitoringThreadFixedTimeout = 10; //secs
+    public static int scheduledMonitoringThreadInitialDelay = 2; //secs
+    public static int scheduledLoadbalancerThreadFixedTimeout = 5; //secs
+    public static int scheduledLoadbalancerThreadInitialDelay = 20; //secs
     public static String REMOTE_HOST_USERNAME = "federico";
 
     public static String REMOTE_HOST_PASSWORD = "";//"TOBECHANGED";
