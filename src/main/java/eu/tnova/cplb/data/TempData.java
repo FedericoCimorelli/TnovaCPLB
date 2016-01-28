@@ -1,4 +1,4 @@
-package com.tnova.cplb.data;
+package eu.tnova.cplb.data;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -11,7 +11,8 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.NewCookie;
 
 import com.sun.jersey.api.client.Client;
-import com.tnova.cplb.model.CpInstance;
+
+import eu.tnova.cplb.model.CpInstance;
 
 public class TempData {
 

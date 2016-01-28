@@ -1,4 +1,4 @@
-package com.tnova.cplb.model;
+package eu.tnova.cplb.model;
 
 public class OFSwitchMonitoringMetadata {
 

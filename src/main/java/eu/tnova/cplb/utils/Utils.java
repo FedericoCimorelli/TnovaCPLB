@@ -1,4 +1,4 @@
-package com.tnova.cplb.utils;
+package eu.tnova.cplb.utils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import com.tnova.cplb.data.Constants;
-import com.tnova.cplb.data.TempData;
-import com.tnova.cplb.model.CpInstance;
+import eu.tnova.cplb.data.Constants;
+import eu.tnova.cplb.data.TempData;
+import eu.tnova.cplb.model.CpInstance;
 
 
 public class Utils {

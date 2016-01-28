@@ -1,4 +1,4 @@
-package com.tnova.cplb.model;
+package eu.tnova.cplb.model;
 
 import java.util.ArrayList;
 import java.util.List;

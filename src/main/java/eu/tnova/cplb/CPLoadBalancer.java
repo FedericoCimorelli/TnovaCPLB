@@ -1,4 +1,4 @@
-package com.tnova.cplb;
+package eu.tnova.cplb;
 
 import java.net.InetAddress;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -9,11 +9,12 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.tnova.cplb.data.Constants;
-import com.tnova.cplb.data.TempData;
-import com.tnova.cplb.task.LoadBalancerThread;
-import com.tnova.cplb.task.WorkerMonitoringThread;
-import com.tnova.cplb.utils.Utils;
+
+import eu.tnova.cplb.data.Constants;
+import eu.tnova.cplb.data.TempData;
+import eu.tnova.cplb.task.LoadBalancerThread;
+import eu.tnova.cplb.task.WorkerMonitoringThread;
+import eu.tnova.cplb.utils.Utils;
 
 
 public class CPLoadBalancer{

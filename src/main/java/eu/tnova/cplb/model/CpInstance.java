@@ -1,8 +1,9 @@
-package com.tnova.cplb.model;
+package eu.tnova.cplb.model;
 
 import java.net.InetAddress;
 import com.google.common.collect.EvictingQueue;
-import com.tnova.cplb.data.Constants;
+
+import eu.tnova.cplb.data.Constants;
 
 public class CpInstance {
 

@@ -1,4 +1,4 @@
-package com.tnova.cplb.utils;
+package eu.tnova.cplb.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.tnova.cplb.data.TempData;
-import com.tnova.cplb.model.OFSwitchMonitoringMetadata;
+import eu.tnova.cplb.data.TempData;
+import eu.tnova.cplb.model.OFSwitchMonitoringMetadata;
 
 public class OdlServiceUtils {
 

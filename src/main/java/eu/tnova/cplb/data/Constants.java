@@ -1,4 +1,4 @@
-package com.tnova.cplb.data;
+package eu.tnova.cplb.data;
 
 public class Constants {
 

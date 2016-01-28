@@ -1,4 +1,4 @@
-package com.tnova.cplb.services;
+package eu.tnova.cplb.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,11 @@ import javax.ws.rs.core.NewCookie;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
-import com.tnova.cplb.data.Constants;
-import com.tnova.cplb.data.TempData;
-import com.tnova.cplb.model.OFSwitchMonitoringMetadata;
-import com.tnova.cplb.utils.OdlServiceUtils;
+
+import eu.tnova.cplb.data.Constants;
+import eu.tnova.cplb.data.TempData;
+import eu.tnova.cplb.model.OFSwitchMonitoringMetadata;
+import eu.tnova.cplb.utils.OdlServiceUtils;
 
 public class OdlServices {
 

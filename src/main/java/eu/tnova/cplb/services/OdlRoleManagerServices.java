@@ -1,4 +1,4 @@
-package com.tnova.cplb.services;
+package eu.tnova.cplb.services;
 
 public class OdlRoleManagerServices {
 

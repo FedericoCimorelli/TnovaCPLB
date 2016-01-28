@@ -1,4 +1,4 @@
-package com.tnova.cplb.task;
+package eu.tnova.cplb.task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,12 +11,13 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import com.tnova.cplb.data.Constants;
-import com.tnova.cplb.data.TempData;
-import com.tnova.cplb.model.CpInstanceMachineMonitoringMetadata;
-import com.tnova.cplb.model.CpInstanceOdlOpenFlowMonitoringMetadata;
-import com.tnova.cplb.model.OFSwitchMonitoringMetadata;
-import com.tnova.cplb.services.OdlServices;
+
+import eu.tnova.cplb.data.Constants;
+import eu.tnova.cplb.data.TempData;
+import eu.tnova.cplb.model.CpInstanceMachineMonitoringMetadata;
+import eu.tnova.cplb.model.CpInstanceOdlOpenFlowMonitoringMetadata;
+import eu.tnova.cplb.model.OFSwitchMonitoringMetadata;
+import eu.tnova.cplb.services.OdlServices;
 
 public class WorkerMonitoringThread implements Runnable{
 
