@@ -1,4 +1,4 @@
-package eu.tnova.cplb.data;
+package eu.tnova.crat.cplb.data;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import javax.ws.rs.core.NewCookie;
 
 import com.sun.jersey.api.client.Client;
 
-import eu.tnova.cplb.model.CpInstance;
+import eu.tnova.crat.cplb.model.CpInstance;
 
 public class TempData {
 
@@ -22,6 +22,6 @@ public class TempData {
     public static List<ScheduledThreadPoolExecutor> scheduledThreadPoolExcecutors = new ArrayList<ScheduledThreadPoolExecutor>();
     public static Client client;
     public static List<NewCookie> odlCookies = null;
-    public static List<String> instanceAndresses = new ArrayList<String>();
+    public static List<String> instanceAddresses = new ArrayList<String>();
 
 }

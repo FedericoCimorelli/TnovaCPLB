@@ -1,4 +1,4 @@
-package eu.tnova.cplb.utils;
+package eu.tnova.crat.cplb.utils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import eu.tnova.cplb.data.Constants;
-import eu.tnova.cplb.data.TempData;
-import eu.tnova.cplb.model.CpInstance;
+import eu.tnova.crat.cplb.data.Constants;
+import eu.tnova.crat.cplb.data.TempData;
+import eu.tnova.crat.cplb.model.CpInstance;
 
 
 public class Utils {
@@ -52,7 +52,7 @@ public class Utils {
             l+=ip;
             TempData.LOGGER.info(l);
             CpInstance cpi = new CpInstance(ipInstance);
-            TempData.instanceAndresses.add(ip);
+            TempData.instanceAddresses.add(ip);
             TempData.cpInstances.put(cpi.getIp(), cpi);
         }
     }

@@ -1,9 +1,9 @@
-package eu.tnova.cplb.model;
+package eu.tnova.crat.cplb.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CpInstanceOdlOpenFlowMonitoringMetadata {
+public class CpInstanceODLOpenFlowMonitoringMetadata {
 
     public List<OFSwitchMonitoringMetadata> switchesMonitoringMetadata = new ArrayList<OFSwitchMonitoringMetadata>();
 

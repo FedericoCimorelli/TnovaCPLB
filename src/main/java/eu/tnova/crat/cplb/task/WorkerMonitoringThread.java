@@ -1,4 +1,4 @@
-package eu.tnova.cplb.task;
+package eu.tnova.crat.cplb.task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,12 +12,12 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-import eu.tnova.cplb.data.Constants;
-import eu.tnova.cplb.data.TempData;
-import eu.tnova.cplb.model.CpInstanceMachineMonitoringMetadata;
-import eu.tnova.cplb.model.CpInstanceOdlOpenFlowMonitoringMetadata;
-import eu.tnova.cplb.model.OFSwitchMonitoringMetadata;
-import eu.tnova.cplb.services.OdlServices;
+import eu.tnova.crat.cplb.data.Constants;
+import eu.tnova.crat.cplb.data.TempData;
+import eu.tnova.crat.cplb.model.CpInstanceMachineMonitoringMetadata;
+import eu.tnova.crat.cplb.model.CpInstanceODLOpenFlowMonitoringMetadata;
+import eu.tnova.crat.cplb.model.OFSwitchMonitoringMetadata;
+import eu.tnova.crat.cplb.services.ODLServices;
 
 public class WorkerMonitoringThread implements Runnable{
 
@@ -39,14 +39,14 @@ public class WorkerMonitoringThread implements Runnable{
 
 
     private int getOpenDaylightInstanceMonitoringData(InetAddress ipInstance) {
-        CpInstanceOdlOpenFlowMonitoringMetadata cioomm = new CpInstanceOdlOpenFlowMonitoringMetadata();
+        CpInstanceODLOpenFlowMonitoringMetadata cioomm = new CpInstanceODLOpenFlowMonitoringMetadata();
         String ip = ipInstance.toString();
         if(ip.startsWith("/"))
             ip = ip.substring(1);
-        List<OFSwitchMonitoringMetadata> a = OdlServices.getAllNodes(ip);
+        List<OFSwitchMonitoringMetadata> a = ODLServices.getAllNodes(ip);
         cioomm.switchesMonitoringMetadata.addAll(a);
         TempData.LOGGER.info("Monitoring ODL OpenFlow metadata for instance "+ip+": "+cioomm.getSwitchesMonitoringMetadata().toString());
-        //TempData.cpInstances.get(ip).monitoringOdlOpenFlowMetadata.add(cioomm);
+        TempData.cpInstances.get(ip).monitoringOdlOpenFlowMetadata.add(cioomm);
         return 0;
     }
 
@@ -61,7 +61,7 @@ public class WorkerMonitoringThread implements Runnable{
             String i = ip.toString();
             if(i.startsWith("/"))
                 i = i.substring(1);
-            session = jsch.getSession(Constants.REMOTE_HOST_USERNAME, i, 22);
+            session = jsch.getSession(Constants.REMOTE_HOST_USERNAME, i, 2222);
             session.setPassword(Constants.REMOTE_HOST_PASSWORD);
             Properties config = new Properties();
             config.put("StrictHostKeyChecking", "no");

@@ -1,15 +1,15 @@
-package eu.tnova.cplb.model;
+package eu.tnova.crat.cplb.model;
 
 import java.net.InetAddress;
 import com.google.common.collect.EvictingQueue;
 
-import eu.tnova.cplb.data.Constants;
+import eu.tnova.crat.cplb.data.Constants;
 
 public class CpInstance {
 
     public InetAddress ip;
     public EvictingQueue<CpInstanceMachineMonitoringMetadata> monitoringMachineMetadata;
-    public EvictingQueue<CpInstanceOdlOpenFlowMonitoringMetadata> monitoringOdlOpenFlowMetadata;
+    public EvictingQueue<CpInstanceODLOpenFlowMonitoringMetadata> monitoringOdlOpenFlowMetadata;
     public boolean monitoringTaskActive = false;
 
 

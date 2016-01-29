@@ -1,6 +1,6 @@
-package eu.tnova.cplb.task;
+package eu.tnova.crat.cplb.task;
 
-import eu.tnova.cplb.data.TempData;
+import eu.tnova.crat.cplb.data.TempData;
 
 public class LoadBalancerThread implements Runnable{
 

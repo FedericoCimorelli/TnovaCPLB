@@ -1,4 +1,4 @@
-package eu.tnova.cplb.model;
+package eu.tnova.crat.cplb.model;
 
 import java.sql.Timestamp;
 import org.joda.time.DateTime;
