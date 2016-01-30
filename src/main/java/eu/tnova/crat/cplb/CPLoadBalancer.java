@@ -110,7 +110,7 @@ public class CPLoadBalancer{
         }
     }
 
-    private static void setupAuthenticatedClient(){
+  /*  private static void setupAuthenticatedClient(){
         TempData.client = Client.create();
         TempData.client.addFilter(new HTTPBasicAuthFilter(Constants.ODL_username, Constants.ODL_password));
         for(String instanceIp : TempData.instanceAddresses){
@@ -120,6 +120,6 @@ public class CPLoadBalancer{
             TempData.odlCookies = response.getCookies();
         }
         //TempData.client = Client.create();
-    }
+    } */
 
 }
