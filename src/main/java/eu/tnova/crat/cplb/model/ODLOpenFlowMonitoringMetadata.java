@@ -1,18 +1,23 @@
 package eu.tnova.crat.cplb.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CpInstanceODLOpenFlowMonitoringMetadata {
+public class ODLOpenFlowMonitoringMetadata implements Serializable {
 
-    public List<OFSwitchMonitoringMetadata> switchesMonitoringMetadata = new ArrayList<OFSwitchMonitoringMetadata>();
+	public ODLOpenFlowMonitoringMetadata(){
+	switchesMonitoringMetadata = new ArrayList<OFSwitch>();	
+	}
+	
+    public List<OFSwitch> switchesMonitoringMetadata;
 
-    public List<OFSwitchMonitoringMetadata> getSwitchesMonitoringMetadata() {
+    public List<OFSwitch> getSwitchesMonitoringMetadata() {
         return switchesMonitoringMetadata;
     }
 
     public void setSwitchesMonitoringMetadata(
-            List<OFSwitchMonitoringMetadata> switchesMonitoringMetadata) {
+            List<OFSwitch> switchesMonitoringMetadata) {
         this.switchesMonitoringMetadata = switchesMonitoringMetadata;
     }
 

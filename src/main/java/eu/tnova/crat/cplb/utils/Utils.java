@@ -1,61 +1,36 @@
 package eu.tnova.crat.cplb.utils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import eu.tnova.crat.cplb.data.Constants;
-import eu.tnova.crat.cplb.data.TempData;
-import eu.tnova.crat.cplb.model.CpInstance;
-
 
 public class Utils {
 
-    public static void LoadingInstancesConfiguration(){
-        TempData.LOGGER.info("Loading instaces configurations...");
-        FileReader fr = null;
-        try {
-            fr = new FileReader(TempData.configurationFileName);
-        } catch (FileNotFoundException e) {
-            TempData.LOGGER.severe(e.getMessage());
-        }
-        BufferedReader textReader = new BufferedReader(fr);
-        String numberOfInstances = "0";
-        try {
-            numberOfInstances = textReader.readLine();
-
-        } catch (IOException e) {
-            TempData.LOGGER.severe(e.getMessage());
-        }
-        String l = "Found "+numberOfInstances+" instace(s) configurations...";
-        TempData.LOGGER.info(l);
-        int numOfInstances = Integer.parseInt(numberOfInstances);
-        //TempData.cpInstances = new ArrayList<CpInstance>();
-        Constants.numberOfInstancies = numOfInstances;
-        InetAddress ipInstance = null;
-        for(int i=0; i<numOfInstances; i++){
-            l = "Configuring instace #"+(i+1)+", IP:";
-            String ip = "0.0.0.0";
-            try {
-                ip = textReader.readLine();
-            } catch (IOException e) {
-                TempData.LOGGER.severe(e.getMessage());
-            }
-            try {
-                ipInstance = InetAddress.getByName(ip);
-            } catch (UnknownHostException e) {
-                TempData.LOGGER.severe(e.getMessage());
-            }
-            l+=ip;
-            TempData.LOGGER.info(l);
-            CpInstance cpi = new CpInstance(ipInstance);
-            TempData.instanceAddresses.add(ip);
-            TempData.cpInstances.put(cpi.getIp(), cpi);
-        }
-    }
+	public static String getRoleCode(int role) {
+		// TODO Auto-generated method stub
+		
+		switch(role){
+		case Constants.OFPCRROLEMASTER:
+			return "BECOMEMASTER";
+		case Constants.OFPCRROLESLAVE:
+			return "BECOMESLAVE";
+		default:
+			return "BECOMEEQUAL";
+		}
+	}
+	
+	public static String getRoleString(int role) {
+		// TODO Auto-generated method stub
+		
+		switch(role){
+		case Constants.OFPCRROLEMASTER:
+			return "BECOMEMASTER";
+		case Constants.OFPCRROLESLAVE:
+			return "BECOMESLAVE";
+		case Constants.OFPCRROLEEQUAL:
+			return "BECOMEEQUAL";
+		default:
+			return "NULL";
+		}
+	}
 
 
 

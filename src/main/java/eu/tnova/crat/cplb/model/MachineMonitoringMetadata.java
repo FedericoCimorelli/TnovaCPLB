@@ -1,10 +1,11 @@
 package eu.tnova.crat.cplb.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import org.joda.time.DateTime;
 
 
-public class CpInstanceMachineMonitoringMetadata {
+public class MachineMonitoringMetadata implements Serializable {
 
     public Timestamp timestamp;
     public double nSwitch = -1;
@@ -17,7 +18,7 @@ public class CpInstanceMachineMonitoringMetadata {
     private float loadAvgFifteenMinute = -1;
 
 
-    public CpInstanceMachineMonitoringMetadata() {
+    public MachineMonitoringMetadata() {
         timestamp = new Timestamp(new DateTime().getMillis());
     }
 

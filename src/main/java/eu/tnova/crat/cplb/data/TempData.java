@@ -19,7 +19,7 @@ public class TempData {
     public static Logger LOGGER;
     public static String configurationFileName = "config";
     public static List<String> instanceAddresses = new ArrayList<String>();
-    public static Map<InetAddress, CpInstance> cpInstances = new HashMap<InetAddress, CpInstance>();
+    public static Map<String, CpInstance> cpInstances = new HashMap<String, CpInstance>();
     public static List<ScheduledThreadPoolExecutor> scheduledThreadPoolExcecutors = new ArrayList<ScheduledThreadPoolExecutor>();
     //public static Client client;
     //public static List<NewCookie> odlCookies = null;

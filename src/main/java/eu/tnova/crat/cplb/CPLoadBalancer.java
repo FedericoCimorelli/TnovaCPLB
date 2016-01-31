@@ -1,23 +1,22 @@
 package eu.tnova.crat.cplb;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.server.Request;
-import org.glassfish.grizzly.http.server.Response;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 import eu.tnova.crat.cplb.data.Constants;
 import eu.tnova.crat.cplb.data.TempData;
 import eu.tnova.crat.cplb.http.DashBoardHandler;
+import eu.tnova.crat.cplb.model.CpInstance;
+import eu.tnova.crat.cplb.services.ODLRESTClient;
 import eu.tnova.crat.cplb.task.LoadBalancerThread;
 import eu.tnova.crat.cplb.task.WorkerMonitoringThread;
 import eu.tnova.crat.cplb.utils.Utils;
@@ -31,9 +30,8 @@ public class CPLoadBalancer{
 
 
     public static void main( String[] args ){
-        inizializeLogger();
-        TempData.LOGGER.info("Starting LoadBalancer...");
-        Utils.LoadingInstancesConfiguration();
+    	inizializeLogger();
+        configInstances();
         //setupAuthenticatedClient();
         setupMonitoringInstanceTasks();
         //doLoadBalancingTask();
@@ -90,7 +88,7 @@ public class CPLoadBalancer{
 
     private static void setupMonitoringInstanceTasks() {
         TempData.LOGGER.info("Configure and start monitoring instace tasks...");
-        for(InetAddress iIp : TempData.cpInstances.keySet()){
+        for(String iIp : TempData.cpInstances.keySet()){
             String wmtName = "wmt@"+iIp;
             TempData.LOGGER.info("Started Worker Monitoring Thread "+wmtName+" execution loop...");
             ScheduledThreadPoolExecutor stpe =
@@ -122,4 +120,46 @@ public class CPLoadBalancer{
         //TempData.client = Client.create();
     } */
 
+    public static void configInstances(){
+        TempData.LOGGER.info("Loading instaces configurations...");
+        FileReader fr = null;
+        try {
+            fr = new FileReader(TempData.configurationFileName);
+        } catch (FileNotFoundException e) {
+            TempData.LOGGER.severe(e.getMessage());
+        }
+        BufferedReader textReader = new BufferedReader(fr);
+        String numberOfInstances = "0";
+        try {
+            numberOfInstances = textReader.readLine();
+
+        } catch (IOException e) {
+            TempData.LOGGER.severe(e.getMessage());
+        }
+        String l = "Found "+numberOfInstances+" instace(s) configurations...";
+        TempData.LOGGER.info(l);
+        int numOfInstances = Integer.parseInt(numberOfInstances);
+        //TempData.cpInstances = new ArrayList<CpInstance>();
+        Constants.numberOfInstancies = numOfInstances;
+        InetAddress ipInstance = null;
+        for(int i=0; i<numOfInstances; i++){
+            l = "Configuring instace #"+(i+1)+", IP:";
+            String ip = "0.0.0.0";
+            try {
+                ip = textReader.readLine();
+            } catch (IOException e) {
+                TempData.LOGGER.severe(e.getMessage());
+            }
+            try {
+                ipInstance = InetAddress.getByName(ip);
+            } catch (UnknownHostException e) {
+                TempData.LOGGER.severe(e.getMessage());
+            }
+            l+=ip;
+            TempData.LOGGER.info(l);
+            CpInstance cpi = new CpInstance(ip);
+            TempData.instanceAddresses.add(ip);
+            TempData.cpInstances.put(ip, cpi);
+        }
+    }
 }

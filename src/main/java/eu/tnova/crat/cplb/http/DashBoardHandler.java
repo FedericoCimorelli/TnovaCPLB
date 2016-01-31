@@ -1,9 +1,6 @@
 package eu.tnova.crat.cplb.http;
 
-import java.net.InetAddress;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
@@ -31,11 +28,11 @@ public class DashBoardHandler extends HttpHandler {
 				Iterator<CpInstance> it = TempData.cpInstances.values().iterator();
 				while (it.hasNext()) {
 			        CpInstance cp = (CpInstance)it.next();
-			        response_body += cp.monitoringMachineMetadata.element();
+			        response_body += cp.getIp() + "<br/>";
+			        response_body += cp.getMachineMonitoringDataCurrent();
 					// avoids a ConcurrentModificationException
 			    }
-			    
-				
+			    			
 				
 				response_body+="</body></html>";
 				
