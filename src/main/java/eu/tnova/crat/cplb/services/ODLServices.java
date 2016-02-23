@@ -1,8 +1,10 @@
 package eu.tnova.crat.cplb.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,8 +15,7 @@ import eu.tnova.crat.cplb.utils.Utils;
 
 public class ODLServices {
 
-	public static void updateAllNodes(String instanceIp) {
-		try {
+	public static void updateAllNodes(String instanceIp) throws ClientProtocolException, IOException {
 			String path = Constants.getODLNodesPath(instanceIp);
 			/*
 			 * WebResource res = TempData.client.resource(path); Builder builder
@@ -25,20 +26,31 @@ public class ODLServices {
 			TempData.LOGGER.info("Monitoring instance ODL OpenFlow metadata, getting " + path);
 			JSONObject response = ODLRESTClient.get(path);
 
-			JSONArray ja = response.getJSONObject("nodes").getJSONArray("node");
+			JSONObject nodes = response.getJSONObject("nodes");
+			
+			JSONArray ja = nodes.optJSONArray("node");
+			if (ja!=null){
 			for (int i = 0; i < ja.length(); i++) {
 				String switchId = ja.getJSONObject(i).getString("id").split(":")[1];
 				OFSwitch ofs = new OFSwitch(switchId);
 				TempData.cpInstances.get(instanceIp).addSwitch(switchId, ofs);
+				TempData.ofSwitches.add(switchId);
 			}
-
-		} catch (Exception e) {
-			TempData.LOGGER.severe(e.getMessage());
-		}
+			} else {
+				TempData.cpInstances.get(instanceIp).addLog("updateAllNodes error: " + response.toString());
+			}
+			
+		/*	
+		 	OFSwitch ofs = new OFSwitch("1");
+			TempData.cpInstances.get(instanceIp).addSwitch("1", ofs);
+	
+			OFSwitch ofs2 = new OFSwitch("2");
+			TempData.cpInstances.get(instanceIp).addSwitch("2", ofs2);
+			*/
+	
 	}
 
-	public static List<OFSwitch> updateNodesRole(String instanceIp, String[] switch_ids) {
-		try {
+	public static void updateNodesRole(String instanceIp, String[] switch_ids) throws ClientProtocolException, IOException {
 			String path = Constants.getODLGetRolesPath(instanceIp);
 			if (switch_ids == null) {
 				switch_ids = new String[] {};
@@ -46,10 +58,12 @@ public class ODLServices {
 
 			JSONArray jarray = new JSONArray(switch_ids);
 			JSONObject body = new JSONObject("{'input':{'switch-ids':" + jarray.toString() + "}}");
+			
 			JSONObject response = ODLRESTClient.post(path, body);
-
+			//JSONObject response = new JSONObject("{'output': { 'response-code': 0, 'response-message': [ '1:2:OFPCRROLEMASTER','2:3:OFPCRROLESLAVE']}}");
 			JSONObject output = response.optJSONObject("output");
-
+			
+			
 			if (output != null) {
 
 				int responsecode = output.getInt("response-code");
@@ -64,17 +78,12 @@ public class ODLServices {
 					TempData.cpInstances.get(instanceIp).setSwitchRole(switch_id, Integer.parseInt(role_code));
 				}
 
+			} else {
+					TempData.cpInstances.get(instanceIp).addLog("updateNodesRole error: " + response.toString());
 			}
-
-			
-		} catch (Exception e) {
-			TempData.LOGGER.severe(e.getMessage());
-		}
-		return new ArrayList<OFSwitch>();
 	}
 
-	public static List<OFSwitch> setNodesRole(String instanceIp, String[] switch_ids, int role) {
-		try {
+	public static int setNodesRole(String instanceIp, String[] switch_ids, int role) throws ClientProtocolException, IOException {
 			String path = Constants.getODLSetRolesPath(instanceIp);
 			if (switch_ids == null) {
 				switch_ids = new String[] {};
@@ -85,10 +94,6 @@ public class ODLServices {
 					"{'input':{'ofp-role':" + Utils.getRoleCode(role) + ",'switch-ids':" + jarray.toString() + "}}");
 			JSONObject response = ODLRESTClient.post(path, body);
 
-			return null;
-		} catch (Exception e) {
-			TempData.LOGGER.severe(e.getMessage());
-		}
-		return new ArrayList<OFSwitch>();
+		return 0;
 	}
 }

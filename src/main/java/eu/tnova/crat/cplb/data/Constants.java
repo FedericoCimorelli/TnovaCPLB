@@ -2,9 +2,13 @@ package eu.tnova.crat.cplb.data;
 
 public class Constants {
 
-    public static final int OFPCRROLEEQUAL = 0;
-    public static final int OFPCRROLESLAVE = 1;
+	public static String configurationFileName = "config.ini";
+	
+    public static final int OFPCRROLENOCHANGE = 0;
+    public static final int OFPCRROLEEQUAL = 1;
     public static final int OFPCRROLEMASTER = 2;
+    public static final int OFPCRROLESLAVE = 3;
+    
     
     public static int numberOfInstancies = 0;
     public static int monitoringDataHistoryLenght = 10;
@@ -14,8 +18,8 @@ public class Constants {
     public static int scheduledLoadbalancerThreadFixedTimeout = 5; //secs
     public static int scheduledLoadbalancerThreadInitialDelay = 20; //secs
     
-    public static String REMOTE_HOST_USERNAME = "kubla";
-    public static String REMOTE_HOST_PASSWORD = "kubla";//"TOBECHANGED";
+    //public static String REMOTE_HOST_USERNAME = "kubla";
+    //public static String REMOTE_HOST_PASSWORD = "kubla";//"TOBECHANGED";
 
     public static String ODL_PORT = "8181";
     public static String ODL_username = "admin";

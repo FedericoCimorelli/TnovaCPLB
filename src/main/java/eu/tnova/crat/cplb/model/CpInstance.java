@@ -1,59 +1,87 @@
 package eu.tnova.crat.cplb.model;
 
-import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.google.common.collect.EvictingQueue;
 
 import eu.tnova.crat.cplb.data.Constants;
+import eu.tnova.crat.cplb.utils.Utils;
 
 public class CpInstance {
 
     private String ip;
-    private MachineMonitoringMetadata MachineMonitoringDataCurrent;
-    private EvictingQueue<MachineMonitoringMetadata> MachineMonitoringDataHistory;
+    private String sshUser;
+    private String sshPassword;
+    private int sshPort;
     
-    private ODLOpenFlowMonitoringMetadata ODLOpenFlowMonitoringDataCurrent;
-    private EvictingQueue<ODLOpenFlowMonitoringMetadata> ODLOpenFlowMonitoringDataHistory;
+    private MachineMonitoringMetrics MachineMonitoringMetricsCurrent;
+    private EvictingQueue<MachineMonitoringMetrics> MachineMonitoringMetricsHistory;
+    
+    private ODLOpenFlowMonitoringMetrics ODLOpenFlowMonitoringMetricsCurrent;
+    private EvictingQueue<ODLOpenFlowMonitoringMetrics> ODLOpenFlowMonitoringMetricsHistory;
    // public boolean monitoringTaskActive = false;
     
     private HashMap<String, OFSwitch> OFSwitches;
+    public EvictingQueue<String> Log;
+    
 
-
-    public CpInstance(String ipInstance) {
+    public CpInstance(String ipInstance, int sshPort, String sshUser, String sshPwd) {
         this.ip = ipInstance;
-        MachineMonitoringDataHistory = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
+        this.sshUser = sshUser;
+        this.sshPassword = sshPwd;
+        this.sshPort = sshPort;
+        
+        MachineMonitoringMetricsHistory = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
     //    monitoringTaskActive = false;
-        ODLOpenFlowMonitoringDataHistory = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
+        ODLOpenFlowMonitoringMetricsHistory = EvictingQueue.create(Constants.monitoringDataHistoryLenght);
         OFSwitches = new HashMap<String, OFSwitch>();
+        Log = EvictingQueue.create(5);
     }
 
     public String getIp() {
         return ip;
     }
-
+    
+    public int getSSHPort(){
+    	return sshPort;
+    }
+    
+    public String getSSHUser() {
+        return sshUser;
+    }
+    
+    public String getSSHPassword() {
+        return sshPassword;
+    }
+    
     public void setIp(String ipInstance) {
         this.ip = ipInstance;
     }
     
-    public void addMachineMonitoringMetadata(MachineMonitoringMetadata mmm){
-    	MachineMonitoringDataCurrent = mmm;
-    	MachineMonitoringDataHistory.add(mmm);
+    public void addMachineMonitoringMetadata(MachineMonitoringMetrics mmm){
+    	MachineMonitoringMetricsCurrent = mmm;
+    	MachineMonitoringMetricsHistory.add(mmm);
     }
     
-    public void addODLOpenFlowMonitoringMetadata(ODLOpenFlowMonitoringMetadata mmm){
-    	ODLOpenFlowMonitoringDataCurrent = mmm;
-    	ODLOpenFlowMonitoringDataHistory.add(mmm);
+    public void addODLOpenFlowMonitoringMetadata(ODLOpenFlowMonitoringMetrics mmm){
+    	ODLOpenFlowMonitoringMetricsCurrent = mmm;
+    	ODLOpenFlowMonitoringMetricsHistory.add(mmm);
     }
 
-	public ODLOpenFlowMonitoringMetadata getODLOpenFlowMonitoringDataCurrent() {
+	public ODLOpenFlowMonitoringMetrics getODLOpenFlowMonitoringDataCurrent() {
 		// TODO Auto-generated method stub
-		return ODLOpenFlowMonitoringDataCurrent;
+		return ODLOpenFlowMonitoringMetricsCurrent;
 	}
 	
-	public MachineMonitoringMetadata getMachineMonitoringDataCurrent() {
+	public MachineMonitoringMetrics getMachineMonitoringDataCurrent() {
 		// TODO Auto-generated method stub
-		return MachineMonitoringDataCurrent;
+		return MachineMonitoringMetricsCurrent;
+	}
+	
+	public HashMap<String, OFSwitch> getSwitches(){
+		return OFSwitches;
 	}
 	
 	public boolean addSwitch(String id, OFSwitch ofs){
@@ -81,5 +109,25 @@ public class CpInstance {
 		OFSwitches.get(id).role = role;
 	
 	}
+	
+	public void addLog(String log){
+		String date = Utils.ConvertMilliSecondsToFormattedDate(System.currentTimeMillis());
+		Log.add(date + ": " + log);
+	}
+	
+	public String[] getLogs(){
+		return Log.toArray(new String[0]);
+	}
+
+	public ArrayList<OFSwitch> getSwitchesIsMasterFor(){
+		ArrayList<OFSwitch> result = new ArrayList<OFSwitch>();
+		for (String contr : OFSwitches.keySet()) {
+	            OFSwitch sw = OFSwitches.get(contr);
+	            if (sw.role == Constants.OFPCRROLEMASTER)
+	            	result.add(sw);
+		 }
+		return result;
+	}
+    
 
 }

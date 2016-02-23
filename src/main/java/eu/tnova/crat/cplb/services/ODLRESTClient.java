@@ -1,7 +1,11 @@
 package eu.tnova.crat.cplb.services;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -35,7 +39,7 @@ public class ODLRESTClient {
 	public static JSONObject post(String url) throws Exception {
 		return post(url, null);
 	}
-    public static JSONObject post(String url, JSONObject body) throws Exception {
+    public static JSONObject post(String url, JSONObject body) throws ClientProtocolException, IOException {
     	TempData.LOGGER.info("POST "+url);
     	TempData.LOGGER.info("Body "+body);
     	
@@ -70,7 +74,7 @@ public class ODLRESTClient {
     }
     
     
-    public static JSONObject get(String url) throws Exception {
+    public static JSONObject get(String url) throws ClientProtocolException, IOException {
     	
     	TempData.LOGGER.info("GET "+url);
     	

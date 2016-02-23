@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ODLOpenFlowMonitoringMetadata implements Serializable {
+public class ODLOpenFlowMonitoringMetrics implements Serializable {
 
-	public ODLOpenFlowMonitoringMetadata(){
+	public ODLOpenFlowMonitoringMetrics(){
 	switchesMonitoringMetadata = new ArrayList<OFSwitch>();	
 	}
 	
